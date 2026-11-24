@@ -17,7 +17,12 @@ const products = [
   { id: 6, image: prod3 },
 ];
 
-export default function BestsellerSection() {
+export default function BestsellerSection({
+  bannerImage = furnitureImg,
+  bannerBg = "bg-amber-400",
+  imagePosition = "object-bottom",
+  reverse = false,
+}) {
   const [activeCategory, setActiveCategory] = useState("Men");
 
   const handlePrevCategory = () => {
@@ -36,15 +41,20 @@ export default function BestsellerSection() {
 
   return (
     <section className="w-full max-w-[90rem] mx-auto bg-white py-12 md:h-[55.9375rem] md:max-h-[55.9375rem] flex items-stretch">
-      {/* Üstteki PromoCards ile aynı yatay hizada iç konteyner */}
-      <div className="w-full max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-stretch gap-8">
-        
-        {/* Sol Sütun: Sarı FURNITURE Afişi */}
-        <aside className="relative w-full md:w-[34%] min-h-[28rem] md:min-h-0 md:h-full bg-amber-400 overflow-hidden flex flex-col justify-start p-8">
+      {/* reverse prop'u true olduğunda masaüstünde afiş sağa, ürünler sola geçer */}
+      <div
+        className={`w-full max-w-6xl mx-auto px-6 flex flex-col ${
+          reverse ? "md:flex-row-reverse" : "md:flex-row"
+        } items-stretch gap-8`}
+      >
+        {/* Afiş Sütunu */}
+        <aside
+          className={`relative w-full md:w-[34%] min-h-[28rem] md:min-h-0 md:h-full ${bannerBg} overflow-hidden flex flex-col justify-start p-8`}
+        >
           <img
-            src={furnitureImg}
+            src={bannerImage}
             alt="Furniture"
-            className="absolute inset-0 w-full h-full object-cover object-bottom select-none pointer-events-none"
+            className={`absolute inset-0 w-full h-full object-cover ${imagePosition} select-none pointer-events-none`}
           />
           <div className="relative z-10 flex flex-col gap-1">
             <h2 className="text-sm font-bold text-slate-800 tracking-wide uppercase">
@@ -54,16 +64,14 @@ export default function BestsellerSection() {
           </div>
         </aside>
 
-        {/* Sağ Sütun: Üst Bar + 6'lı Flexbox Ürün Listesi */}
+        {/* Ürün Listesi Sütunu */}
         <div className="w-full md:w-[66%] flex flex-col justify-between gap-6">
-          
           {/* Üst Başlık, Kategori Sekmeleri ve Oklar */}
           <div className="w-full pb-4 border-b border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
             <h2 className="text-base font-bold text-slate-800 tracking-tight uppercase">
               BESTSELLER PRODUCTS
             </h2>
 
-            {/* Men / Women / Accessories */}
             <div className="flex items-center gap-6 text-sm font-bold">
               {categories.map((category) => (
                 <button
@@ -81,7 +89,6 @@ export default function BestsellerSection() {
               ))}
             </div>
 
-            {/* Yuvarlak Sol / Sağ Ok Butonları */}
             <div className="flex items-center gap-3">
               <button
                 type="button"
@@ -108,7 +115,6 @@ export default function BestsellerSection() {
               <ProductCard key={item.id} image={item.image} />
             ))}
           </div>
-
         </div>
       </div>
     </section>
